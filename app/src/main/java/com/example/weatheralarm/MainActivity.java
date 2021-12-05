@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TimePicker;
@@ -22,6 +23,11 @@ import android.widget.Toast;
 import com.example.weatheralarm.databinding.ActivityMainBinding;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.Calendar;
 import java.util.List;
@@ -43,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         TedPermission.create().setPermissionListener(permissionListener)
                 .setDeniedMessage("Permissions are Denied")
-                .setPermissions(Manifest.permission.WAKE_LOCK, Manifest.permission.DISABLE_KEYGUARD, Manifest.permission.SYSTEM_ALERT_WINDOW)
+                .setPermissions(Manifest.permission.WAKE_LOCK, Manifest.permission.DISABLE_KEYGUARD, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.INTERNET)
                 .check();
     }
 
