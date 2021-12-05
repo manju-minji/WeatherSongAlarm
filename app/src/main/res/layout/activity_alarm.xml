@@ -8,6 +8,14 @@
     android:backgroundTint="#FBF5BD"
     tools:context=".MainActivity">
 
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/youtubePlayerView"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/weatherTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
     <com.ebanx.swipebtn.SwipeButton
         android:id="@+id/swipe_btn"
         android:layout_width="wrap_content"

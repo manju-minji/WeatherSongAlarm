@@ -23,22 +23,26 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import com.example.weatheralarm.databinding.ActivityAlarmBinding;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class AlarmActivity extends AppCompatActivity {
+public class AlarmActivity extends YouTubeBaseActivity {
     Calendar calendar;
     SwipeButton swipeButton;
     TextView timeText;
-    MediaPlayer mediaPlayer;
     boolean flag = true;
-    private PowerManager.WakeLock wl;
-
-    Bundle bundle = new Bundle();
 
     private ActivityAlarmBinding binding;
+
+    private static String API_KEY = "AIzaSyDqRAsWwct5ZQprzKX6WVmEMJL9dJTQIxg";
+    private static String videoID = "8GPAW4dMxsY";
+
+    YouTubePlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,46 +62,14 @@ public class AlarmActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        calendar = Calendar.getInstance();
+        initPlayer();
+
         swipeButton = binding.swipeBtn;
         timeText = binding.timeTextView;
 
-        calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.HOUR_OF_DAY) > 0 && calendar.get(Calendar.HOUR_OF_DAY) < 12) {
-            timeText.setText("AM " + calendar.get(Calendar.HOUR_OF_DAY) + "시 " + calendar.get(Calendar.MINUTE) + "분 ");
-        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 12) {
-            timeText.setText("PM " + calendar.get(Calendar.HOUR_OF_DAY) + "시 " + calendar.get(Calendar.MINUTE) + "분 ");
-        } else if (calendar.get(Calendar.HOUR_OF_DAY) > 12 && calendar.get(Calendar.HOUR_OF_DAY) < 24) {
-            timeText.setText("PM " + (calendar.get(Calendar.HOUR_OF_DAY) - 12) + "시 " + calendar.get(Calendar.MINUTE) + "분 ");
-        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 0) {
-            timeText.setText("AM 0시 " + calendar.get(Calendar.MINUTE) + "분");
-        }
-        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.ouu);   // 소리를 재생할 MediaPlayer
-        mediaPlayer.setLooping(true);   // 무한반복
-        mediaPlayer.start();
+        setTimeText();
 
-       /* new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (flag == true) {
-                    try {
-                        calendar = Calendar.getInstance();
-                        if (calendar.get(Calendar.HOUR_OF_DAY) > 0 && calendar.get(Calendar.HOUR_OF_DAY) < 12) {
-                            timeText.setText("AM " + calendar.get(Calendar.HOUR_OF_DAY) + "시 " + calendar.get(Calendar.MINUTE) + "분 " + calendar.get(Calendar.SECOND) + "초");
-                        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 12) {
-                            timeText.setText("PM " + calendar.get(Calendar.HOUR_OF_DAY) + "시 " + calendar.get(Calendar.MINUTE) + "분 " + calendar.get(Calendar.SECOND) + "초");
-                        } else if (calendar.get(Calendar.HOUR_OF_DAY) > 12 && calendar.get(Calendar.HOUR_OF_DAY) < 24) {
-                            timeText.setText("PM " + (calendar.get(Calendar.HOUR_OF_DAY) - 12) + "시 " + calendar.get(Calendar.MINUTE) + "분 " + calendar.get(Calendar.SECOND) + "초");
-                        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 0) {
-                            timeText.setText("AM 0시 " + calendar.get(Calendar.MINUTE) + "분 " + calendar.get(Calendar.SECOND) + "초");
-                        }
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {}
-                }
-            }
-        }).start(); // 실시간으로 시계 출력*/
-
-        new Thread(new Runnable() {
+       new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -114,6 +86,7 @@ public class AlarmActivity extends AppCompatActivity {
                             public void run() {
                                 String weather = weatherStatus.get(0).text();
                                 binding.weatherTextView.setText(weather);
+                                startVideo();
                             }
                         });
                     }
@@ -126,10 +99,78 @@ public class AlarmActivity extends AppCompatActivity {
         swipeButton.setOnStateChangeListener(new OnStateChangeListener() {
             @Override
             public void onStateChange(boolean active) {
-                mediaPlayer.stop();
+                player.release();
                 flag=false;
                 finish();
             }
         }); // Swipe Button 밀어서 해제
+    }
+
+    public void setTimeText() {
+        calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.HOUR_OF_DAY) > 0 && calendar.get(Calendar.HOUR_OF_DAY) < 12) {
+            timeText.setText("AM " + calendar.get(Calendar.HOUR_OF_DAY) + "시 " + calendar.get(Calendar.MINUTE) + "분 ");
+        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 12) {
+            timeText.setText("PM " + calendar.get(Calendar.HOUR_OF_DAY) + "시 " + calendar.get(Calendar.MINUTE) + "분 ");
+        } else if (calendar.get(Calendar.HOUR_OF_DAY) > 12 && calendar.get(Calendar.HOUR_OF_DAY) < 24) {
+            timeText.setText("PM " + (calendar.get(Calendar.HOUR_OF_DAY) - 12) + "시 " + calendar.get(Calendar.MINUTE) + "분 ");
+        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 0) {
+            timeText.setText("AM 0시 " + calendar.get(Calendar.MINUTE) + "분");
+        }
+    }
+
+    public void initPlayer() {
+        binding.youtubePlayerView.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                player = youTubePlayer;
+                player.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                    @Override
+                    public void onLoading() {
+
+                    }
+
+                    @Override
+                    public void onLoaded(String s) {
+                        player.play();
+                    }
+
+                    @Override
+                    public void onAdStarted() {
+
+                    }
+
+                    @Override
+                    public void onVideoStarted() {
+
+                    }
+
+                    @Override
+                    public void onVideoEnded() {
+
+                    }
+
+                    @Override
+                    public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+            }
+        });
+    }
+
+    public void startVideo() {
+        if (player != null) {
+            if (player.isPlaying()){
+                player.pause();
+            } else {
+                player.cueVideo(videoID);
+            }
+        }
     }
 }
