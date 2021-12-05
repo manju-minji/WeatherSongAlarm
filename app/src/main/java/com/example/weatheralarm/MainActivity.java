@@ -16,33 +16,37 @@ import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.weatheralarm.databinding.ActivityMainBinding;
+
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
+
     Button alarmButton;
     int alarmHour, alarmMinute;
     Calendar alarmCalendar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        alarmButton = (Button) findViewById(R.id.alarmButton);
 
-        alarmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog
-                        (MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                alarmHour = hourOfDay;
-                                alarmMinute = minute;
-                                setAlarm();
-                            }
-                        },alarmHour, alarmMinute, false);
-                timePickerDialog.show();
-            }
-        });
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+    }
+
+    public void openTimePicker(View view) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog
+                (MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        alarmHour = hourOfDay;
+                        alarmMinute = minute;
+                        setAlarm();
+                    }
+                },alarmHour, alarmMinute, false);
+        timePickerDialog.show();
     }
 
     void setAlarm() {
@@ -68,6 +72,6 @@ public class MainActivity extends AppCompatActivity {
             alarmManager.setExact
                     (AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), alarmCallPendingIntent);
 
-        Toast.makeText(getApplicationContext(),"알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),alarmHour + "시 " + alarmMinute + "분에 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
     } // 알람 설정
 }

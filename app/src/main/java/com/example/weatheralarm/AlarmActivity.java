@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import com.ebanx.swipebtn.SwipeButton;
 
 import java.util.Calendar;
 
+import com.example.weatheralarm.databinding.ActivityAlarmBinding;
+
 public class AlarmActivity extends AppCompatActivity {
     Calendar calendar;
     SwipeButton swipeButton;
@@ -24,6 +27,7 @@ public class AlarmActivity extends AppCompatActivity {
     boolean flag = true;
     private PowerManager.WakeLock wl;
 
+    private ActivityAlarmBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +43,13 @@ public class AlarmActivity extends AppCompatActivity {
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-        setContentView(R.layout.activity_alarm);
+        binding = ActivityAlarmBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
         calendar = Calendar.getInstance();
-        swipeButton = (SwipeButton) findViewById(R.id.swipe_btn);
-        timeText = (TextView) findViewById(R.id.time);
+        swipeButton = binding.swipeBtn;
+        timeText = binding.time;
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.ouu);   // 소리를 재생할 MediaPlayer
         mediaPlayer.setLooping(true);   // 무한반복
