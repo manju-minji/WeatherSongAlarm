@@ -2,7 +2,7 @@
 
 # Reference
 ## Naver weather type
-* [네이버 날씨 아이콘 종류](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=naver_weather&logNo=222057189278)
+* [네이버 날씨 아이콘 의미](https://help.naver.com/support/contents/contents.help?serviceNo=23599&categoryNo=23726)
 
 ## Make an alarm
 * [안드로이드 스튜디오 알람 사용하기](https://1d1cblog.tistory.com/48)
