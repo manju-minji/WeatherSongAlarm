@@ -56,6 +56,18 @@ public class MainActivity extends AppCompatActivity {
                 .check();
 
         timePicker = binding.timePicker;
+
+        String previousSet = PreferenceManager.getString(this, "Time");
+        if(previousSet != "") {
+            binding.settedAlarmTimeTextView.setText("설정된 알람: " + previousSet);
+        } else {
+            binding.settedAlarmTimeTextView.setText("이전에 설정된 알람이 없습니다.");
+        }
+
+        String defaultVideoID = PreferenceManager.getString(this, WeatherKey.Default);
+        if ( defaultVideoID.equals("")) {
+            PreferenceManager.setString(this, WeatherKey.Default, AlarmUtil.getVideoID( "https://www.youtube.com/watch?v=NJZNYcNe-2U"));
+        }
     }
 
     PermissionListener permissionListener = new PermissionListener() {
@@ -113,7 +125,10 @@ public class MainActivity extends AppCompatActivity {
             alarmManager.setExact
                     (AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), alarmCallPendingIntent);
 
-        Toast.makeText(getApplicationContext(), hour_24 + "시 " + minute + "분에 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+        String alarmText = hour_24 + "시 " + minute + "분";
+        Toast.makeText(getApplicationContext(), alarmText +"에 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+        PreferenceManager.setString(this, "Time", alarmText);
+        binding.settedAlarmTimeTextView.setText("설정된 알람: " + alarmText);
     } // 알람 설정
 
     public void openSetSongPage(View view) {

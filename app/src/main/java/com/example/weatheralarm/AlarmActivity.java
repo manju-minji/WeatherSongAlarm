@@ -83,7 +83,6 @@ public class AlarmActivity extends YouTubeBaseActivity {
                             @Override
                             public void run() {
                                 String weather = weatherStatus.get(0).text();
-                                weather = "강한눈";
                                 binding.weatherTextView.setText("현재 날씨는 " + weather +"입니다.");
                                 startVideo(weather);
                             }
@@ -171,25 +170,24 @@ public class AlarmActivity extends YouTubeBaseActivity {
                 String videoID = "";
 
                 if (weather.contains("맑음")) {
-                    videoID = getVideoID("https://www.youtube.com/watch?v=ZMN68f1LwOQ");
+                    videoID = PreferenceManager.getString(this, WeatherKey.Clear);
                 } else if (weather.contains("흐림") || weather.contains("구름")) {
-                    videoID = getVideoID("https://www.youtube.com/watch?v=uYn7hX-o1zc");
+                    videoID = PreferenceManager.getString(this, WeatherKey.Cloudy);
                 } else if (weather.contains("눈")) {
-                    videoID = getVideoID("https://www.youtube.com/watch?v=AWXXVImLszA");
+                    videoID = PreferenceManager.getString(this, WeatherKey.Snow);
                 } else if (weather.contains("비") || weather.contains("소나기")) {
-                    videoID =  getVideoID("https://www.youtube.com/watch?v=1ZIxcQdfK1k");
+                    videoID =  PreferenceManager.getString(this, WeatherKey.Rainy);
                 } else if (weather.contains("번개") || weather.contains("뇌우")) {
-                    videoID = "8GPAW4dMxsY";
+                    videoID = PreferenceManager.getString(this, WeatherKey.Thunder);
                 } else {
-                    videoID = "8GPAW4dMxsY";
+                    videoID = PreferenceManager.getString(this, WeatherKey.Default);
                 }
                 Log.d("videoID", videoID);
+                if (videoID.equals("")) {
+                    videoID = PreferenceManager.getString(this, WeatherKey.Default);
+                }
                 player.cueVideo(videoID);
             }
         }
-    }
-
-    private String getVideoID(String url) {
-        return url.substring(url.indexOf("?v=")+3);
     }
 }

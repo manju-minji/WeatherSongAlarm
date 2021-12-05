@@ -38,4 +38,13 @@
         android:onClick="openSetSongPage"
         android:text="날씨별 노래 설정" />
 
+    <TextView
+        android:id="@+id/settedAlarmTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/timePicker"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="TextView" />
+
 </RelativeLayout>
