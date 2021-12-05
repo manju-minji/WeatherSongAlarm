@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.weatheralarm">
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -19,7 +20,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherAlarm">
-        android:usesCleartextTraffic="true"
+        <activity
+            android:name=".SettingSongActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".AlarmActivity"
             android:exported="true" />

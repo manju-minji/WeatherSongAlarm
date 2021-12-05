@@ -178,7 +178,7 @@ public class AlarmActivity extends YouTubeBaseActivity {
                     videoID = getVideoID("https://www.youtube.com/watch?v=AWXXVImLszA");
                 } else if (weather.contains("비") || weather.contains("소나기")) {
                     videoID =  getVideoID("https://www.youtube.com/watch?v=1ZIxcQdfK1k");
-                } else if (weather.contains("번개")) {
+                } else if (weather.contains("번개") || weather.contains("뇌우")) {
                     videoID = "8GPAW4dMxsY";
                 } else {
                     videoID = "8GPAW4dMxsY";

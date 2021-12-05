@@ -7,12 +7,35 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/alarmButton"
+        android:layout_marginBottom="150dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/alarmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:onClick="openTimePicker"
-        android:text="알람설정" />
+        android:layout_above="@+id/songButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:onClick="setAlarm"
+        android:text="알람 시간 설정" />
+
+    <Button
+        android:id="@+id/songButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:onClick="openSetSongPage"
+        android:text="날씨별 노래 설정" />
 
 </RelativeLayout>

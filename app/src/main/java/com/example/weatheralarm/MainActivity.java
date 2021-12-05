@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     Button alarmButton;
-    int alarmHour, alarmMinute;
+    private TimePicker timePicker;
     Calendar alarmCalendar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 .setDeniedMessage("Permissions are Denied")
                 .setPermissions(Manifest.permission.WAKE_LOCK, Manifest.permission.DISABLE_KEYGUARD, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.INTERNET)
                 .check();
+
+        timePicker = binding.timePicker;
     }
 
     PermissionListener permissionListener = new PermissionListener() {
@@ -68,24 +70,31 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void openTimePicker(View view) {
-        TimePickerDialog timePickerDialog = new TimePickerDialog
-                (MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        alarmHour = hourOfDay;
-                        alarmMinute = minute;
-                        setAlarm();
-                    }
-                },alarmHour, alarmMinute, false);
-        timePickerDialog.show();
-    }
+    public void setAlarm(View view) {
+        int hour, hour_24, minute;
+        String am_pm;
+        if (Build.VERSION.SDK_INT >= 23 ){
+            hour_24 = timePicker.getHour();
+            minute = timePicker.getMinute();
+        }
+        else{
+            hour_24 = timePicker.getCurrentHour();
+            minute = timePicker.getCurrentMinute();
+        }
+        if(hour_24 > 12) {
+            am_pm = "PM";
+            hour = hour_24 - 12;
+        }
+        else
+        {
+            hour = hour_24;
+            am_pm="AM";
+        }
 
-    void setAlarm() {
         alarmCalendar = Calendar.getInstance();
         alarmCalendar.setTimeInMillis(System.currentTimeMillis());
-        alarmCalendar.set(Calendar.HOUR_OF_DAY, alarmHour);
-        alarmCalendar.set(Calendar.MINUTE, alarmMinute);
+        alarmCalendar.set(Calendar.HOUR_OF_DAY, hour_24);
+        alarmCalendar.set(Calendar.MINUTE, minute);
         alarmCalendar.set(Calendar.SECOND, 0);
         // TimePickerDialog 에서 설정한 시간을 알람 시간으로 설정
 
@@ -104,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
             alarmManager.setExact
                     (AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), alarmCallPendingIntent);
 
-        Toast.makeText(getApplicationContext(),alarmHour + "시 " + alarmMinute + "분에 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), hour_24 + "시 " + minute + "분에 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
     } // 알람 설정
+
+    public void openSetSongPage(View view) {
+        Intent intent = new Intent(this, SettingSongActivity.class);
+        startActivity(intent);
+    }
 }
