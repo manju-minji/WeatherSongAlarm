@@ -40,7 +40,6 @@ public class AlarmActivity extends YouTubeBaseActivity {
     private ActivityAlarmBinding binding;
 
     private static String API_KEY = "AIzaSyDqRAsWwct5ZQprzKX6WVmEMJL9dJTQIxg";
-    private static String videoID = "8GPAW4dMxsY";
 
     YouTubePlayer player;
 
@@ -76,7 +75,6 @@ public class AlarmActivity extends YouTubeBaseActivity {
                     String URL = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%84%9C%EC%9A%B8%EB%82%A0%EC%94%A8";
 
                     Document doc = Jsoup.connect(URL).get();    //URL 웹사이트에 있는 html 코드를 다 끌어오기
-                    System.out.println(doc);
                     Elements weatherStatus = doc.select(".temperature_info span:nth-child(2)");
                     Boolean isEmpty = weatherStatus.isEmpty(); //빼온 값 null체크
                     Log.d("Tag", "isNull? : " + isEmpty); //로그캣 출력
@@ -85,8 +83,9 @@ public class AlarmActivity extends YouTubeBaseActivity {
                             @Override
                             public void run() {
                                 String weather = weatherStatus.get(0).text();
-                                binding.weatherTextView.setText(weather);
-                                startVideo();
+                                weather = "강한눈";
+                                binding.weatherTextView.setText("현재 날씨는 " + weather +"입니다.");
+                                startVideo(weather);
                             }
                         });
                     }
@@ -164,13 +163,33 @@ public class AlarmActivity extends YouTubeBaseActivity {
         });
     }
 
-    public void startVideo() {
+    public void startVideo(String weather) {
         if (player != null) {
             if (player.isPlaying()){
                 player.pause();
             } else {
+                String videoID = "";
+
+                if (weather.contains("맑음")) {
+                    videoID = getVideoID("https://www.youtube.com/watch?v=ZMN68f1LwOQ");
+                } else if (weather.contains("흐림") || weather.contains("구름")) {
+                    videoID = getVideoID("https://www.youtube.com/watch?v=uYn7hX-o1zc");
+                } else if (weather.contains("눈")) {
+                    videoID = getVideoID("https://www.youtube.com/watch?v=AWXXVImLszA");
+                } else if (weather.contains("비") || weather.contains("소나기")) {
+                    videoID =  getVideoID("https://www.youtube.com/watch?v=1ZIxcQdfK1k");
+                } else if (weather.contains("번개")) {
+                    videoID = "8GPAW4dMxsY";
+                } else {
+                    videoID = "8GPAW4dMxsY";
+                }
+                Log.d("videoID", videoID);
                 player.cueVideo(videoID);
             }
         }
+    }
+
+    private String getVideoID(String url) {
+        return url.substring(url.indexOf("?v=")+3);
     }
 }
