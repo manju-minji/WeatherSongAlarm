@@ -2,13 +2,19 @@ package com.example.weatheralarm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.weatheralarm.databinding.ActivityMainBinding;
 import com.example.weatheralarm.databinding.ActivitySettingSongBinding;
+import android.app.AlertDialog;
 
 public class SettingSongActivity extends AppCompatActivity {
 
@@ -22,80 +28,104 @@ public class SettingSongActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
-
-        textViewInit();
     }
 
-    public void textViewInit() {
-        binding.defaultURLTextView.setText(PreferenceManager.getString(this, WeatherKey.Default));
-        binding.clearURLTextView.setText(PreferenceManager.getString(this, WeatherKey.Clear));
-        binding.cloudyURLTextView.setText(PreferenceManager.getString(this, WeatherKey.Cloudy));
-        binding.rainyURLTextView.setText(PreferenceManager.getString(this, WeatherKey.Rainy));
-        binding.snowURLTextView.setText(PreferenceManager.getString(this, WeatherKey.Snow));
-        binding.thunderURLTextView.setText(PreferenceManager.getString(this, WeatherKey.Thunder));
+    public void defaultAddButtonTapped(View view) {
+        makeAlert(WeatherKey.Default);
     }
 
-    public void saveButtonTapped(View view) {
-        Log.d("Song Setting", "save");
+    public void defaultAddButtonTapped2(View view) {
+        makeAlert(WeatherKey.Default +"2");
+    }
 
-        String defaultVideoURL = binding.defaultURLTextView.getText().toString();
-        String clearVideoURL = binding.clearURLTextView.getText().toString();
-        String cloudyVideoURL  = binding.cloudyURLTextView.getText().toString();
-        String rainyVideoURL = binding.rainyURLTextView.getText().toString();
-        String snowVideoURL = binding.snowURLTextView.getText().toString();
-        String thunderVideoURL = binding.thunderURLTextView.getText().toString();
+    public void clearAddButtonTapped(View view) {
+        makeAlert(WeatherKey.Clear);
+    }
 
-        Log.d("VideoURL", defaultVideoURL);
+    public void clearAddButtonTapped2(View view) {
+        makeAlert(WeatherKey.Clear +"2");
+    }
 
-        if ( cloudyVideoURL != PreferenceManager.getString(this, WeatherKey.Default)) {
-            PreferenceManager.setString(this, WeatherKey.Default, AlarmUtil.getVideoID(defaultVideoURL));
+    public void cloudyAddButtonTapped(View view) {
+        makeAlert(WeatherKey.Cloudy);
+    }
+
+    public void cloudyAddButtonTapped2(View view) {
+        makeAlert(WeatherKey.Cloudy +"2");
+    }
+
+    public void rainyAddButtonTapped(View view) {
+        makeAlert(WeatherKey.Rainy);
+    }
+
+    public void rainyAddButtonTapped2(View view) {
+        makeAlert(WeatherKey.Rainy +"2");
+    }
+
+    public void snowAddButtonTapped(View view) {
+        makeAlert(WeatherKey.Snow);
+    }
+
+    public void snowAddButtonTapped2(View view) {
+        makeAlert(WeatherKey.Snow +"2");
+    }
+
+    public void thunderAddButtonTapped(View view) {
+        makeAlert(WeatherKey.Thunder);
+    }
+
+    public void thunderAddButtonTapped2(View view) {
+        makeAlert(WeatherKey.Thunder +"2");
+    }
+
+    private void makeAlert(String key) {
+        final EditText link = new EditText(this);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+
+        alert.setTitle("Input Youtube URL");
+        alert.setMessage("ex. 'https://youtu.be/uYn7hX-o1zc'");
+
+        alert.setView(makeCustomEditText(link));
+
+        String text = PreferenceManager.getString(this, key);
+        if(!text.equals("")) {
+            link.setText(text);
         }
 
-        if  (clearVideoURL != null || clearVideoURL != "") {
-            Log.d("VideoURL", clearVideoURL);
-            if ( cloudyVideoURL != PreferenceManager.getString(this, WeatherKey.Clear)) {
-                PreferenceManager.setString(this, WeatherKey.Clear, AlarmUtil.getVideoID(clearVideoURL));
+        Context context = this;
+        alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String urlLink = link.getText().toString();
+                Log.d(key + " save", urlLink);
+                PreferenceManager.setString(context, key, urlLink);
             }
-        } else {
-            PreferenceManager.setString(this, WeatherKey.Clear, "");
-        }
-        if  (cloudyVideoURL != null || cloudyVideoURL != "") {
-            Log.d("VideoURL", cloudyVideoURL);
-            if ( cloudyVideoURL != PreferenceManager.getString(this, WeatherKey.Cloudy)) {
-                PreferenceManager.setString(this, WeatherKey.Cloudy, AlarmUtil.getVideoID(cloudyVideoURL));
+        });
+        alert.setNegativeButton("no",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
             }
-        } else {
-            PreferenceManager.setString(this, WeatherKey.Cloudy, "");
-        }
-        if  (rainyVideoURL != null || rainyVideoURL != "") {
-            Log.d("VideoURL", rainyVideoURL);
-            if ( cloudyVideoURL != PreferenceManager.getString(this, WeatherKey.Rainy)) {
-                PreferenceManager.setString(this, WeatherKey.Rainy, AlarmUtil.getVideoID(rainyVideoURL));
-            }
-        } else {
-            PreferenceManager.setString(this, WeatherKey.Rainy, "");
-        }
-        if  (snowVideoURL != null || snowVideoURL != "") {
-            Log.d("VideoURL", snowVideoURL);
-            if ( cloudyVideoURL != PreferenceManager.getString(this, WeatherKey.Snow)) {
-                PreferenceManager.setString(this, WeatherKey.Snow, AlarmUtil.getVideoID(snowVideoURL));
-            }
-        } else {
-            PreferenceManager.setString(this, WeatherKey.Snow, "");
-        }
-        if  (thunderVideoURL != null || thunderVideoURL != "") {
-            Log.d("VideoURL", thunderVideoURL);
-            if ( cloudyVideoURL != PreferenceManager.getString(this, WeatherKey.Thunder)) {
-                PreferenceManager.setString(this, WeatherKey.Thunder, AlarmUtil.getVideoID(thunderVideoURL));
-            }
-        } else {
-            PreferenceManager.setString(this, WeatherKey.Thunder, "");
-        }
-        Toast.makeText(getApplicationContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show();
-        finish();
+        });
+        alert.show();
+    }
+
+    private FrameLayout makeCustomEditText(EditText link) {
+        FrameLayout container = new FrameLayout(this);
+
+        FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+
+        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+
+        link.setLayoutParams(params);
+
+        container.addView(link);
+
+        return container;
     }
 }

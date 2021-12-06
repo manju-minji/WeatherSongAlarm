@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         String defaultVideoID = PreferenceManager.getString(this, WeatherKey.Default);
         if ( defaultVideoID.equals("")) {
-            PreferenceManager.setString(this, WeatherKey.Default, AlarmUtil.getVideoID( "https://www.youtube.com/watch?v=NJZNYcNe-2U"));
+            PreferenceManager.setString(this, WeatherKey.Default, "https://www.youtube.com/watch?v=KnJuK9TBzlE");
         }
     }
 

@@ -10,12 +10,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         app:flow_horizontalAlign="center"
         app:flow_verticalAlign="center"
-        app:layout_constraintBottom_toTopOf="@+id/saveButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -36,19 +36,19 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/defaultURLTextView"
+            <Button
+                android:id="@+id/defaultAddButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:minHeight="48dp"
-                android:textSize="12sp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:onClick="defaultAddButtonTapped"
+                android:text="추가하기" />
+
+            <Button
+                android:id="@+id/defaultAddButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="defaultAddButtonTapped2"
+                android:text="추가하기" />
 
             <TextView
                 android:id="@+id/textView12"
@@ -59,19 +59,19 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/clearURLTextView"
+            <Button
+                android:id="@+id/clearAddButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:minHeight="48dp"
-                android:textSize="12sp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:onClick="clearAddButtonTapped"
+                android:text="추가하기" />
+
+            <Button
+                android:id="@+id/clearAddButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="clearAddButtonTapped2"
+                android:text="추가하기" />
 
             <TextView
                 android:id="@+id/textView13"
@@ -82,19 +82,19 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/cloudyURLTextView"
+            <Button
+                android:id="@+id/cloudyAddButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:minHeight="48dp"
-                android:textSize="12sp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:onClick="cloudyAddButtonTapped"
+                android:text="추가하기" />
+
+            <Button
+                android:id="@+id/cloudyAddButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="cloudyAddButtonTapped2"
+                android:text="추가하기" />
 
             <TextView
                 android:id="@+id/textView14"
@@ -105,19 +105,19 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/rainyURLTextView"
+            <Button
+                android:id="@+id/rainyAddButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:minHeight="48dp"
-                android:textSize="12sp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:onClick="rainyAddButtonTapped"
+                android:text="추가하기" />
+
+            <Button
+                android:id="@+id/rainyAddButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="rainyAddButtonTapped2"
+                android:text="추가하기" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -128,19 +128,19 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/snowURLTextView"
+            <Button
+                android:id="@+id/snowAddButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:minHeight="48dp"
-                android:textSize="12sp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:onClick="snowAddButtonTapped"
+                android:text="추가하기" />
+
+            <Button
+                android:id="@+id/snowAddButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="snowAddButtonTapped2"
+                android:text="추가하기" />
 
             <TextView
                 android:id="@+id/textView16"
@@ -151,33 +151,22 @@
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/thunderURLTextView"
+            <Button
+                android:id="@+id/thunderAddButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:minHeight="48dp"
-                android:textSize="12sp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:onClick="thunderAddButtonTapped"
+                android:text="추가하기" />
+
+            <Button
+                android:id="@+id/thunderAddButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="thunderAddButtonTapped2"
+                android:text="추가하기" />
 
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:onClick="saveButtonTapped"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

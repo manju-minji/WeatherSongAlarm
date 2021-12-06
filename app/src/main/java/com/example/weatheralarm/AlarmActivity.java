@@ -78,11 +78,12 @@ public class AlarmActivity extends YouTubeBaseActivity {
                     Elements weatherStatus = doc.select(".temperature_info span:nth-child(2)");
                     Boolean isEmpty = weatherStatus.isEmpty(); //빼온 값 null체크
                     Log.d("Tag", "isNull? : " + isEmpty); //로그캣 출력
-                    if (isEmpty == false) { //null값이 아니면 크롤링 실행
+                    if (isEmpty == false) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 String weather = weatherStatus.get(0).text();
+                                weather = "비";
                                 binding.weatherTextView.setText("현재 날씨는 " + weather +"입니다.");
                                 startVideo(weather);
                             }
@@ -167,27 +168,68 @@ public class AlarmActivity extends YouTubeBaseActivity {
             if (player.isPlaying()){
                 player.pause();
             } else {
-                String videoID = "";
+                String videoURL = "";
 
                 if (weather.contains("맑음")) {
-                    videoID = PreferenceManager.getString(this, WeatherKey.Clear);
+                    videoURL = getVideoURL(WeatherKey.Clear);
                 } else if (weather.contains("흐림") || weather.contains("구름")) {
-                    videoID = PreferenceManager.getString(this, WeatherKey.Cloudy);
+                    videoURL = getVideoURL(WeatherKey.Cloudy);
                 } else if (weather.contains("눈")) {
-                    videoID = PreferenceManager.getString(this, WeatherKey.Snow);
+                    videoURL = getVideoURL(WeatherKey.Snow);
                 } else if (weather.contains("비") || weather.contains("소나기")) {
-                    videoID =  PreferenceManager.getString(this, WeatherKey.Rainy);
+                    videoURL = getVideoURL(WeatherKey.Rainy);
                 } else if (weather.contains("번개") || weather.contains("뇌우")) {
-                    videoID = PreferenceManager.getString(this, WeatherKey.Thunder);
+                    videoURL = getVideoURL(WeatherKey.Thunder);
                 } else {
-                    videoID = PreferenceManager.getString(this, WeatherKey.Default);
+                    videoURL = getVideoURL(WeatherKey.Default);
                 }
-                Log.d("videoID", videoID);
+                Log.d("videoID", videoURL);
+                String videoID = getVideoID(videoURL);
                 if (videoID.equals("")) {
-                    videoID = PreferenceManager.getString(this, WeatherKey.Default);
+                    videoID = getVideoID(PreferenceManager.getString(this, WeatherKey.Default));
                 }
                 player.cueVideo(videoID);
             }
+        }
+    }
+
+    private String getVideoURL(String key) {
+        String urlOne = PreferenceManager.getString(this, key);
+        String urlTwo = PreferenceManager.getString(this, key+"2");
+
+        if (urlOne.equals("") && urlTwo.equals("")) {
+            Log.d("videoURL", "None");
+            return "";
+        }
+
+        if (!urlOne.equals("") && urlTwo.equals("")) {
+            Log.d("videoURL", "First");
+            return urlOne;
+        } else if (urlOne.equals("") && !urlTwo.equals("")) {
+            Log.d("videoURL", "Second");
+            return urlTwo;
+        } else {
+            if((int)((Math.random()*10000)%10)%2 == 0) {
+                Log.d("videoURL", "even");
+                return urlTwo;
+            } else {
+                Log.d("videoURL", "odd");
+                return urlOne;
+            }
+        }
+    }
+
+    private String getVideoID(String url) {
+        if (url.contains("?v=")) {
+            String id = url.substring(url.indexOf("?v=")+3);
+            Log.d("ReturnVideoID", id);
+            return id;
+        } else if (url.contains("youtu.be/")) {
+            String id = url.substring(url.indexOf("youtu.be/")+9);
+            Log.d("ReturnVideoID", id);
+            return id;
+        } else {
+            return "";
         }
     }
 }
