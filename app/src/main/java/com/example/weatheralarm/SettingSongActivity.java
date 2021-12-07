@@ -39,50 +39,56 @@ public class SettingSongActivity extends AppCompatActivity {
     public void defaultAddButtonTapped(View view) {
         makeAlert(WeatherKey.Default, 0);
     }
-
     public void defaultAddButtonTapped2(View view) {
         makeAlert(WeatherKey.Default, 1);
+    }
+    public void defaultAddButtonTapped3(View view) {
+        makeAlert(WeatherKey.Default, 2);
     }
 
     public void clearAddButtonTapped(View view) {
         makeAlert(WeatherKey.Clear, 0);
     }
-
     public void clearAddButtonTapped2(View view) {
         makeAlert(WeatherKey.Clear, 1);
+    }
+    public void clearAddButtonTapped3(View view) {
+        makeAlert(WeatherKey.Clear, 2);
     }
 
     public void cloudyAddButtonTapped(View view) {
         makeAlert(WeatherKey.Cloudy, 0);
     }
-
     public void cloudyAddButtonTapped2(View view) {
         makeAlert(WeatherKey.Cloudy,1);
+    }
+    public void cloudyAddButtonTapped3(View view) {
+        makeAlert(WeatherKey.Cloudy,2);
     }
 
     public void rainyAddButtonTapped(View view) {
         makeAlert(WeatherKey.Rainy, 0);
     }
-
     public void rainyAddButtonTapped2(View view) {
         makeAlert(WeatherKey.Rainy, 1);
+    }
+    public void rainyAddButtonTapped3(View view) {
+        makeAlert(WeatherKey.Rainy, 2);
     }
 
     public void snowAddButtonTapped(View view) {
         makeAlert(WeatherKey.Snow, 0);
     }
-
     public void snowAddButtonTapped2(View view) {
         makeAlert(WeatherKey.Snow, 1);
     }
-
-    public void thunderAddButtonTapped(View view) {
-        makeAlert(WeatherKey.Thunder, 0);
+    public void snowAddButtonTapped3(View view) {
+        makeAlert(WeatherKey.Snow, 2);
     }
 
-    public void thunderAddButtonTapped2(View view) {
-        makeAlert(WeatherKey.Thunder, 1);
-    }
+    public void thunderAddButtonTapped(View view) { makeAlert(WeatherKey.Thunder, 0); }
+    public void thunderAddButtonTapped2(View view) { makeAlert(WeatherKey.Thunder, 1); }
+    public void thunderAddButtonTapped3(View view) { makeAlert(WeatherKey.Thunder, 2); }
 
     private void makeAlert(String type, Integer number) {
         final EditText link = new EditText(this);
@@ -104,7 +110,7 @@ public class SettingSongActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String urlLink = link.getText().toString();
                 Log.d(type + " save", urlLink);
-                if(text.equals("")) {
+                if(text.equals("") && !urlLink.equals("")) {
                     insertDB(type, urlLink, number);
                 } else {
                     if(!text.equals(urlLink)) {

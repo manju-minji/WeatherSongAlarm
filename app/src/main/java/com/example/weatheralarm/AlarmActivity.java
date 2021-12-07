@@ -235,6 +235,9 @@ public class AlarmActivity extends YouTubeBaseActivity {
         Random random = new Random();
         Integer randomIndex = random.nextInt(urlCount);
 
+        Log.d("urlCount", urlCount.toString());
+        Log.d("randomIndex", randomIndex.toString());
+
         Log.d("SQL search", url[randomIndex]);
 
         cursor.close();

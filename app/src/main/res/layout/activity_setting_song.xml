@@ -50,6 +50,13 @@
                 android:onClick="defaultAddButtonTapped2"
                 android:text="추가하기" />
 
+            <Button
+                android:id="@+id/defaultAddButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="defaultAddButtonTapped3"
+                android:text="추가하기" />
+
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
@@ -71,6 +78,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="clearAddButtonTapped2"
+                android:text="추가하기" />
+
+            <Button
+                android:id="@+id/clearAddButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="clearAddButtonTapped3"
                 android:text="추가하기" />
 
             <TextView
@@ -96,6 +110,13 @@
                 android:onClick="cloudyAddButtonTapped2"
                 android:text="추가하기" />
 
+            <Button
+                android:id="@+id/cloudyAddButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="cloudyAddButtonTapped3"
+                android:text="추가하기" />
+
             <TextView
                 android:id="@+id/textView14"
                 android:layout_width="wrap_content"
@@ -117,6 +138,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="rainyAddButtonTapped2"
+                android:text="추가하기" />
+
+            <Button
+                android:id="@+id/rainyAddButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="rainyAddButtonTapped3"
                 android:text="추가하기" />
 
             <TextView
@@ -142,6 +170,13 @@
                 android:onClick="snowAddButtonTapped2"
                 android:text="추가하기" />
 
+            <Button
+                android:id="@+id/snowAddButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="snowAddButtonTapped3"
+                android:text="추가하기" />
+
             <TextView
                 android:id="@+id/textView16"
                 android:layout_width="wrap_content"
@@ -163,6 +198,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="thunderAddButtonTapped2"
+                android:text="추가하기" />
+
+            <Button
+                android:id="@+id/thunderAddButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="thunderAddButtonTapped3"
                 android:text="추가하기" />
 
         </LinearLayout>
