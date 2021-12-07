@@ -1,6 +1,7 @@
 package com.example.weatheralarm;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.PluralsRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +11,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         String defaultVideoID = PreferenceManager.getString(this, WeatherKey.Default);
         if ( defaultVideoID.equals("")) {
             PreferenceManager.setString(this, WeatherKey.Default, "https://www.youtube.com/watch?v=KnJuK9TBzlE");
+            initializeDB();
         }
     }
 
@@ -134,5 +137,12 @@ public class MainActivity extends AppCompatActivity {
     public void openSetSongPage(View view) {
         Intent intent = new Intent(this, SettingSongActivity.class);
         startActivity(intent);
+    }
+
+    public  void initializeDB() {
+        VideoURLDBHelper videoURLDBHelper = new VideoURLDBHelper(this);
+        SQLiteDatabase sqlDB = videoURLDBHelper.getWritableDatabase();
+        videoURLDBHelper.onUpgrade(sqlDB, 1, 2);
+        sqlDB.close();
     }
 }
