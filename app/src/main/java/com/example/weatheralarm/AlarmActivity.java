@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Looper;
@@ -21,6 +23,7 @@ import com.ebanx.swipebtn.SwipeButton;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Random;
 
 import com.example.weatheralarm.databinding.ActivityAlarmBinding;
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -72,7 +75,7 @@ public class AlarmActivity extends YouTubeBaseActivity {
             @Override
             public void run() {
                 try {
-                    String URL = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%84%9C%EC%9A%B8%EB%82%A0%EC%94%A8";
+                    String URL = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=날씨";
 
                     Document doc = Jsoup.connect(URL).get();    //URL 웹사이트에 있는 html 코드를 다 끌어오기
                     Elements weatherStatus = doc.select(".temperature_info span:nth-child(2)");
@@ -83,7 +86,7 @@ public class AlarmActivity extends YouTubeBaseActivity {
                             @Override
                             public void run() {
                                 String weather = weatherStatus.get(0).text();
-                                weather = "비";
+                                weather = "아무것도 아님";
                                 binding.weatherTextView.setText("현재 날씨는 " + weather +"입니다.");
                                 startVideo(weather);
                             }
@@ -168,55 +171,75 @@ public class AlarmActivity extends YouTubeBaseActivity {
             if (player.isPlaying()){
                 player.pause();
             } else {
-                String videoURL = "";
+                Context context = this;
+                final String[] videoURL = {""};
 
-                if (weather.contains("맑음")) {
-                    videoURL = getVideoURL(WeatherKey.Clear);
-                } else if (weather.contains("흐림") || weather.contains("구름")) {
-                    videoURL = getVideoURL(WeatherKey.Cloudy);
-                } else if (weather.contains("눈")) {
-                    videoURL = getVideoURL(WeatherKey.Snow);
-                } else if (weather.contains("비") || weather.contains("소나기")) {
-                    videoURL = getVideoURL(WeatherKey.Rainy);
-                } else if (weather.contains("번개") || weather.contains("뇌우")) {
-                    videoURL = getVideoURL(WeatherKey.Thunder);
-                } else {
-                    videoURL = getVideoURL(WeatherKey.Default);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (weather.contains("맑음")) {
+                                videoURL[0] = getVideoURL(WeatherKey.Clear);
+                            } else if (weather.contains("흐림") || weather.contains("구름")) {
+                                videoURL[0] = getVideoURL(WeatherKey.Cloudy);
+                            } else if (weather.contains("눈")) {
+                                videoURL[0] = getVideoURL(WeatherKey.Snow);
+                            } else if (weather.contains("비") || weather.contains("소나기")) {
+                                videoURL[0] = getVideoURL(WeatherKey.Rainy);
+                            } else if (weather.contains("번개") || weather.contains("뇌우")) {
+                                videoURL[0] = getVideoURL(WeatherKey.Thunder);
+                            } else {
+                                videoURL[0] = getVideoURL(WeatherKey.Default);
+                            }
+                            Log.d("videoID", videoURL[0]);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                thread.start();
+
+                try {
+                    thread.join();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                Log.d("videoID", videoURL);
-                String videoID = getVideoID(videoURL);
+
+                String videoID = getVideoID(videoURL[0]);
                 if (videoID.equals("")) {
-                    videoID = getVideoID(PreferenceManager.getString(this, WeatherKey.Default));
+                    videoID = getVideoID(PreferenceManager.getString(context, WeatherKey.Default));
                 }
                 player.cueVideo(videoID);
             }
         }
     }
 
-    private String getVideoURL(String key) {
-        String urlOne = PreferenceManager.getString(this, key);
-        String urlTwo = PreferenceManager.getString(this, key+"2");
+    private String getVideoURL(String type) {
+        VideoURLDBHelper videoURLDBHelper = new VideoURLDBHelper(this);
+        SQLiteDatabase sqlDB = videoURLDBHelper.getReadableDatabase();
+        Cursor cursor;
+        cursor = sqlDB.rawQuery("select url from videoURLTBL where type = ?;", new String[] {type});
 
-        if (urlOne.equals("") && urlTwo.equals("")) {
-            Log.d("videoURL", "None");
-            return "";
-        }
+        Integer urlCount = cursor.getCount();
+        String url[] = new String[urlCount];
+        int i = 0;
 
-        if (!urlOne.equals("") && urlTwo.equals("")) {
-            Log.d("videoURL", "First");
-            return urlOne;
-        } else if (urlOne.equals("") && !urlTwo.equals("")) {
-            Log.d("videoURL", "Second");
-            return urlTwo;
-        } else {
-            if((int)((Math.random()*10000)%10)%2 == 0) {
-                Log.d("videoURL", "even");
-                return urlTwo;
-            } else {
-                Log.d("videoURL", "odd");
-                return urlOne;
+        if (urlCount > 0 ) {
+            while (cursor.moveToNext()) {
+                url[i] = cursor.getString(0);
+                i++;
             }
         }
+
+        Random random = new Random();
+        Integer randomIndex = random.nextInt(urlCount);
+
+        Log.d("SQL search", url[randomIndex]);
+
+        cursor.close();
+        sqlDB.close();
+        return url[randomIndex];
     }
 
     private String getVideoID(String url) {
