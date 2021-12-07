@@ -11,7 +11,7 @@ public class VideoURLDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table videoURLTBL (type char(20), url char(50), number char(2), PRIMARY KEY(type, url, number));");
+        sqLiteDatabase.execSQL("create table videoURLTBL (type char(20), url char(50), number char(2), PRIMARY KEY(type, number));");
     }
 
     @Override

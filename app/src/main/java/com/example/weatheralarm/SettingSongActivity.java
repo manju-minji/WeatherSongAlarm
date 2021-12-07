@@ -110,13 +110,14 @@ public class SettingSongActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String urlLink = link.getText().toString();
                 Log.d(type + " save", urlLink);
-                if(text.equals("") && !urlLink.equals("")) {
+                if(text.equals("")) {
                     insertDB(type, urlLink, number);
                 } else {
                     if(!text.equals(urlLink)) {
                         updateDB(type, urlLink, number);
                     }
                 }
+                //insertDB(type, urlLink, number);
             }
         });
         alert.setNegativeButton("no",new DialogInterface.OnClickListener() {
@@ -147,6 +148,7 @@ public class SettingSongActivity extends AppCompatActivity {
         VideoURLDBHelper videoURLDBHelper = new VideoURLDBHelper(this);
         SQLiteDatabase sqlDB = videoURLDBHelper.getWritableDatabase();
         sqlDB.execSQL("insert into videoURLTBL values(" + "'" + type + "'" + "," + "'" +url + "'" + "," + "'" + number.toString() +"');");
+        //on duplicate key update url =" + "'"+url + "', type =" +  "'" + type + "'" + ", number ="+ "'" + number.toString() +"';");
         sqlDB.close();
     }
 
@@ -154,6 +156,7 @@ public class SettingSongActivity extends AppCompatActivity {
         VideoURLDBHelper videoURLDBHelper = new VideoURLDBHelper(this);
         SQLiteDatabase sqlDB = videoURLDBHelper.getWritableDatabase();
         sqlDB.execSQL("update videoURLTBL SET url =" + "'" +url + "'" + " where type =" +  "'" + type + "'" + " and number ="+ "'" + number.toString() +"';");
+        //sqlDB.execSQL("replace into videoURLTBL values(" + "'" + type + "'" + "," + "'" +url + "'" + "," + "'" + number.toString() +"');");
         sqlDB.close();
     }
 
