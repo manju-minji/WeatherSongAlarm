@@ -14,5 +14,8 @@
 * [How to select 1 span from 2 in a div using jsoup](https://stackoverflow.com/questions/58649592/how-to-select-1-span-from-2-in-a-div-using-jsoup)
 * [Thread(쓰레드)에서 UI 변경하기](https://sharp57dev.tistory.com/21)
 
-## Save Data
-* [SharedPreferences 사용하기](https://re-build.tistory.com/37)
+## Thread
+* [다른 스레드의 종료를 기다림(join())](https://cornswrold.tistory.com/187)
+
+## Random
+* [[JAVA] 난수를 생성하는 방법에 대해 알아보자](https://jeseoyun.tistory.com/2)
