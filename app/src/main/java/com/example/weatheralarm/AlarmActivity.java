@@ -1,28 +1,17 @@
 package com.example.weatheralarm;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Looper;
-import android.os.Message;
-import android.os.Handler;
-import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.ebanx.swipebtn.OnStateChangeListener;
 import com.ebanx.swipebtn.SwipeButton;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -89,7 +78,6 @@ public class AlarmActivity extends YouTubeBaseActivity {
                             @Override
                             public void run() {
                                 String weather = weatherStatus.get(0).text();
-                                //weather = "아무것도 아님";
                                 binding.weatherTextView.setText("현재 날씨는 " + weather +"입니다.");
                                 startVideo(weather);
                             }
@@ -176,17 +164,17 @@ public class AlarmActivity extends YouTubeBaseActivity {
             } else {
                 URLThread urlThread;
                 if (weather.contains("맑음")) {
-                    urlThread = new URLThread(WeatherKey.Clear);
+                    urlThread = new URLThread(WeatherType.Clear);
                 } else if (weather.contains("흐림") || weather.contains("구름")) {
-                    urlThread = new URLThread(WeatherKey.Cloudy);
+                    urlThread = new URLThread(WeatherType.Cloudy);
                 } else if (weather.contains("눈")) {
-                    urlThread = new URLThread(WeatherKey.Snow);
+                    urlThread = new URLThread(WeatherType.Snow);
                 } else if (weather.contains("비") || weather.contains("소나기")) {
-                    urlThread = new URLThread(WeatherKey.Rainy);
+                    urlThread = new URLThread(WeatherType.Rainy);
                 } else if (weather.contains("번개") || weather.contains("뇌우")) {
-                    urlThread = new URLThread(WeatherKey.Thunder);
+                    urlThread = new URLThread(WeatherType.Thunder);
                 } else {
-                    urlThread = new URLThread(WeatherKey.Default);
+                    urlThread = new URLThread(WeatherType.Default);
                 }
 
                 urlThread.start();
@@ -227,7 +215,7 @@ public class AlarmActivity extends YouTubeBaseActivity {
         public void play(Context context) {
             String videoID = trimVideoID(videoURL);
             if (videoID.equals("")) {
-                videoID = trimVideoID(PreferenceManager.getString(context, WeatherKey.Default));
+                videoID = trimVideoID(PreferenceManager.getString(context, WeatherType.Default));
             }
             player.cueVideo(videoID);
         }
@@ -251,18 +239,22 @@ public class AlarmActivity extends YouTubeBaseActivity {
                 }
             }
 
-            Random random = new Random();
-            Integer randomIndex = random.nextInt(urlCount);
+            if (urlCount > 0) {
+                Random random = new Random();
+                Integer randomIndex = random.nextInt(urlCount);
 
-            Log.d("urlCount", urlCount.toString());
-            Log.d("randomIndex", randomIndex.toString());
+                Log.d("urlCount", urlCount.toString());
+                Log.d("randomIndex", randomIndex.toString());
 
-            Log.d("SQL search", url[randomIndex]);
+                Log.d("SQL search", url[randomIndex]);
+
+                videoURL = url[randomIndex];
+            } else {
+                videoURL = "";
+            }
 
             cursor.close();
             sqlDB.close();
-
-            videoURL = url[randomIndex];
         }
     }
 }

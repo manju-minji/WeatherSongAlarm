@@ -1,38 +1,24 @@
 package com.example.weatheralarm;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.PluralsRes;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.weatheralarm.databinding.ActivityMainBinding;
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.Calendar;
 import java.util.List;
@@ -66,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
             binding.settedAlarmTimeTextView.setText("이전에 설정된 알람이 없습니다.");
         }
 
-        String defaultVideoID = PreferenceManager.getString(this, WeatherKey.Default);
+        String defaultVideoID = PreferenceManager.getString(this, WeatherType.Default);
         if ( defaultVideoID.equals("")) {
-            PreferenceManager.setString(this, WeatherKey.Default, "https://www.youtube.com/watch?v=KnJuK9TBzlE");
+            PreferenceManager.setString(this, WeatherType.Default, "https://www.youtube.com/watch?v=KnJuK9TBzlE");
             initializeDB();
         }
     }

@@ -12,9 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.example.weatheralarm.databinding.ActivityMainBinding;
 import com.example.weatheralarm.databinding.ActivitySettingSongBinding;
 import android.app.AlertDialog;
 
@@ -37,58 +35,58 @@ public class SettingSongActivity extends AppCompatActivity {
     }
 
     public void defaultAddButtonTapped(View view) {
-        makeAlert(WeatherKey.Default, 0);
+        makeAlert(WeatherType.Default, 0);
     }
     public void defaultAddButtonTapped2(View view) {
-        makeAlert(WeatherKey.Default, 1);
+        makeAlert(WeatherType.Default, 1);
     }
     public void defaultAddButtonTapped3(View view) {
-        makeAlert(WeatherKey.Default, 2);
+        makeAlert(WeatherType.Default, 2);
     }
 
     public void clearAddButtonTapped(View view) {
-        makeAlert(WeatherKey.Clear, 0);
+        makeAlert(WeatherType.Clear, 0);
     }
     public void clearAddButtonTapped2(View view) {
-        makeAlert(WeatherKey.Clear, 1);
+        makeAlert(WeatherType.Clear, 1);
     }
     public void clearAddButtonTapped3(View view) {
-        makeAlert(WeatherKey.Clear, 2);
+        makeAlert(WeatherType.Clear, 2);
     }
 
     public void cloudyAddButtonTapped(View view) {
-        makeAlert(WeatherKey.Cloudy, 0);
+        makeAlert(WeatherType.Cloudy, 0);
     }
     public void cloudyAddButtonTapped2(View view) {
-        makeAlert(WeatherKey.Cloudy,1);
+        makeAlert(WeatherType.Cloudy,1);
     }
     public void cloudyAddButtonTapped3(View view) {
-        makeAlert(WeatherKey.Cloudy,2);
+        makeAlert(WeatherType.Cloudy,2);
     }
 
     public void rainyAddButtonTapped(View view) {
-        makeAlert(WeatherKey.Rainy, 0);
+        makeAlert(WeatherType.Rainy, 0);
     }
     public void rainyAddButtonTapped2(View view) {
-        makeAlert(WeatherKey.Rainy, 1);
+        makeAlert(WeatherType.Rainy, 1);
     }
     public void rainyAddButtonTapped3(View view) {
-        makeAlert(WeatherKey.Rainy, 2);
+        makeAlert(WeatherType.Rainy, 2);
     }
 
     public void snowAddButtonTapped(View view) {
-        makeAlert(WeatherKey.Snow, 0);
+        makeAlert(WeatherType.Snow, 0);
     }
     public void snowAddButtonTapped2(View view) {
-        makeAlert(WeatherKey.Snow, 1);
+        makeAlert(WeatherType.Snow, 1);
     }
     public void snowAddButtonTapped3(View view) {
-        makeAlert(WeatherKey.Snow, 2);
+        makeAlert(WeatherType.Snow, 2);
     }
 
-    public void thunderAddButtonTapped(View view) { makeAlert(WeatherKey.Thunder, 0); }
-    public void thunderAddButtonTapped2(View view) { makeAlert(WeatherKey.Thunder, 1); }
-    public void thunderAddButtonTapped3(View view) { makeAlert(WeatherKey.Thunder, 2); }
+    public void thunderAddButtonTapped(View view) { makeAlert(WeatherType.Thunder, 0); }
+    public void thunderAddButtonTapped2(View view) { makeAlert(WeatherType.Thunder, 1); }
+    public void thunderAddButtonTapped3(View view) { makeAlert(WeatherType.Thunder, 2); }
 
     private void makeAlert(String type, Integer number) {
         final EditText link = new EditText(this);
